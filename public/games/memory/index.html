@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记忆力游戏</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>记忆力游戏</h1>
+      <div class="stats">
+        <div class="stat-container">
+          <div class="stat-label">时间</div>
+          <div id="timer">00:00</div>
+        </div>
+        <div class="stat-container">
+          <div class="stat-label">步数</div>
+          <div id="moves">0</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="game-controls">
+      <div class="difficulty">
+        <label>难度：</label>
+        <select id="difficulty-select">
+          <option value="easy">简单 (4x4)</option>
+          <option value="medium" selected>中等 (6x4)</option>
+          <option value="hard">困难 (6x6)</option>
+        </select>
+      </div>
+      <button id="new-game-button">开始新游戏</button>
+    </div>
+    
+    <div class="game-board" id="game-board">
+      <!-- 卡片将由JavaScript动态添加 -->
+    </div>
+    
+    <div class="game-message" id="game-message">
+      <div class="message-content">
+        <h2>恭喜！</h2>
+        <p>你完成了游戏</p>
+        <div class="result">
+          <div class="result-item">
+            <span class="result-label">用时：</span>
+            <span id="result-time">00:00</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">步数：</span>
+            <span id="result-moves">0</span>
+          </div>
+        </div>
+        <button id="play-again-button">再玩一次</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="game.js"></script>
+</body>
+</html> 

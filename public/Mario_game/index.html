@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超级马里奥游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 加载界面 -->
+        <div id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="mario-running"></div>
+                <h2>游戏加载中...</h2>
+                <div class="loading-bar-container">
+                    <div id="loading-bar" class="loading-bar"></div>
+                </div>
+                <p id="loading-text">0%</p>
+            </div>
+        </div>
+
+        <!-- 开始界面 -->
+        <div id="start-screen" class="screen hidden">
+            <div class="game-title">
+                <h1>超级马里奥</h1>
+                <div class="clouds">
+                    <div class="cloud cloud1"></div>
+                    <div class="cloud cloud2"></div>
+                    <div class="cloud cloud3"></div>
+                </div>
+                <div class="mountains">
+                    <div class="mountain"></div>
+                    <div class="mountain mountain2"></div>
+                </div>
+            </div>
+            <p class="game-instruction">使用方向键移动，空格键跳跃</p>
+            
+            <!-- 用户信息显示区域 -->
+            <div id="user-info" class="user-info hidden"></div>
+            <div id="high-score" class="high-score hidden"></div>
+            
+            <!-- 认证按钮 -->
+            <div class="auth-buttons">
+                <button id="login-button" class="auth-button">登录</button>
+                <button id="register-button" class="auth-button">注册</button>
+                <button id="logout-button" class="auth-button hidden">登出</button>
+            </div>
+            
+            <button id="start-button" class="button">开始游戏</button>
+            <p id="login-message" class="login-message">请先登录后再开始游戏</p>
+        </div>
+
+        <!-- 认证表单容器 -->
+        <div id="auth-container" class="auth-container hidden">
+            <!-- 登录表单 -->
+            <form id="login-form" class="auth-form hidden">
+                <h2>登录</h2>
+                <button type="button" class="close-auth">×</button>
+                
+                <div class="form-group">
+                    <label for="login-username">用户名</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">密码</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                
+                <button type="submit" class="auth-submit">登录</button>
+                
+                <p class="form-footer">
+                    没有账号？<a href="#" id="to-register">立即注册</a>
+                </p>
+            </form>
+            
+            <!-- 注册表单 -->
+            <form id="register-form" class="auth-form hidden">
+                <h2>注册</h2>
+                <button type="button" class="close-auth">×</button>
+                
+                <div class="form-group">
+                    <label for="register-username">用户名</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">密码</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">确认密码</label>
+                    <input type="password" id="confirm-password" required>
+                </div>
+                
+                <button type="submit" class="auth-submit">注册</button>
+                
+                <p class="form-footer">
+                    已有账号？<a href="#" id="to-login">立即登录</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- 游戏界面 -->
+        <div id="game-screen" class="screen hidden">
+            <div id="hud">
+                <div id="score">分数: <span>0</span></div>
+                <div id="coins">金币: <span>0</span></div>
+                <div id="lives">生命: <span>3</span></div>
+                <div id="game-controls">
+                    <button id="pause-button" class="game-control-button">暂停</button>
+                    <button id="exit-button" class="game-control-button">退出</button>
+                </div>
+            </div>
+            <div id="game-world"></div>
+            
+            <!-- 暂停菜单 -->
+            <div id="pause-menu" class="pause-menu hidden">
+                <div class="pause-content">
+                    <h2>游戏暂停</h2>
+                    <button id="resume-button" class="button">继续游戏</button>
+                    <button id="exit-to-menu-button" class="button">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏结束界面 -->
+        <div id="game-over-screen" class="screen hidden">
+            <h1>游戏结束</h1>
+            <p>你的分数: <span id="final-score">0</span></p>
+            <button id="restart-button" class="button">重新开始</button>
+        </div>
+        
+        <!-- 胜利界面 -->
+        <div id="victory-screen" class="screen hidden">
+            <div class="trophy"></div>
+            <h1>恭喜胜利！</h1>
+            <p>你的分数: <span id="victory-score">0</span></p>
+            <button id="victory-restart-button" class="button">再玩一次</button>
+            <div id="fireworks-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // 添加调试信息
+        console.log("页面开始加载");
+        
+        // 检查资源加载
+        function checkResourceLoading() {
+            console.log("检查资源加载状态");
+            if (typeof ASSETS === 'undefined') {
+                console.error("ASSETS未定义，assets.js可能未正确加载");
+            } else {
+                console.log("ASSETS已加载");
+            }
+            
+            // 检查DOM元素
+            const elements = {
+                'start-screen': document.getElementById('start-screen'),
+                'game-screen': document.getElementById('game-screen'),
+                'game-over-screen': document.getElementById('game-over-screen'),
+                'victory-screen': document.getElementById('victory-screen'),
+                'start-button': document.getElementById('start-button'),
+                'game-world': document.getElementById('game-world')
+            };
+            
+            for (const [name, element] of Object.entries(elements)) {
+                if (!element) {
+                    console.error(`${name} 元素未找到`);
+                } else {
+                    console.log(`${name} 元素已找到`);
+                }
+            }
+        }
+    </script>
+    
+    <script src="assets.js"></script>
+    <script src="auth.js"></script>
+    <script src="game.js"></script>
+    
+    <script>
+        // 确保页面加载时显示开始界面
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM内容已加载");
+            
+            // 检查资源加载
+            checkResourceLoading();
+            
+            // 设置游戏屏幕背景色
+            const gameScreen = document.getElementById('game-screen');
+            gameScreen.style.backgroundColor = '#87CEEB';
+            
+            // 设置胜利屏幕烟花效果
+            const victoryScreen = document.getElementById('victory-screen');
+            const fireworksContainer = document.getElementById('fireworks-container');
+            
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && 
+                        mutation.attributeName === 'class' && 
+                        !victoryScreen.classList.contains('hidden')) {
+                        createFireworks();
+                    }
+                });
+            });
+            
+            observer.observe(victoryScreen, { attributes: true });
+            
+            function createFireworks() {
+                fireworksContainer.innerHTML = '';
+                
+                const fireworksCount = 20;
+                const colors = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff'];
+                
+                for (let i = 0; i < fireworksCount; i++) {
+                    setTimeout(() => {
+                        const firework = document.createElement('div');
+                        firework.className = 'firework';
+                        firework.style.left = Math.random() * 100 + '%';
+                        firework.style.top = Math.random() * 100 + '%';
+                        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        fireworksContainer.appendChild(firework);
+                        
+                        setTimeout(() => {
+                            firework.remove();
+                        }, 1000);
+                    }, i * 300);
+                }
+                
+                setTimeout(createFireworks, 3000);
+            }
+            
+            console.log("初始化完成");
+        });
+    </script>
+</body>
+</html> 

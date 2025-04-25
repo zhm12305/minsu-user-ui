@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俄罗斯方块</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="game-panel">
+      <div class="header">
+        <h1>俄罗斯方块</h1>
+      </div>
+      
+      <div class="flex-container">
+        <div class="game-container">
+          <canvas id="game-canvas" width="240" height="480"></canvas>
+          
+          <div class="game-message" id="game-message">
+            <p id="message-text">游戏结束</p>
+            <div class="score-display">得分: <span id="final-score">0</span></div>
+            <button id="retry-button">再试一次</button>
+          </div>
+        </div>
+        
+        <div class="info-panel">
+          <div class="score-section">
+            <div class="stats">
+              <div class="stat-item">
+                <div class="stat-label">得分</div>
+                <div id="score">0</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">消除行数</div>
+                <div id="lines">0</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">等级</div>
+                <div id="level">1</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="next-piece-section">
+            <div class="next-label">下一个方块</div>
+            <canvas id="next-canvas" width="100" height="100"></canvas>
+          </div>
+          
+          <div class="controls">
+            <button id="start-button">开始游戏</button>
+            <button id="pause-button">暂停</button>
+          </div>
+          
+          <div class="instructions">
+            <p>← → : 左右移动</p>
+            <p>↑ : 旋转方块</p>
+            <p>↓ : 加速下落</p>
+            <p>空格 : 一键到底</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mobile-controls">
+      <div class="button-row">
+        <button id="rotate-button">旋转</button>
+      </div>
+      <div class="button-row">
+        <button id="left-button">←</button>
+        <button id="down-button">↓</button>
+        <button id="right-button">→</button>
+      </div>
+      <div class="button-row">
+        <button id="drop-button">快速落下</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="game.js"></script>
+</body>
+</html> 
