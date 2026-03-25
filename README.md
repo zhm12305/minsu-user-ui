@@ -143,14 +143,6 @@ npm run preview
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)：开发、构建、上线与 Nginx 配置
 - [docs/GITHUB_PREP.md](docs/GITHUB_PREP.md)：上传 GitHub 前检查清单
 
-## 仓库发布建议
-
-- 提交 `package-lock.json`，保证依赖安装结果可复现
-- 不要提交 `node_modules/` 和 `dist/`
-- 确认 `.env.*` 中没有敏感密钥
-- 在 GitHub 仓库 About 中补充 description、topics 和预览截图
-- 如果准备公开发布，建议同步补充后端仓库地址或接口文档地址
-
 ## 许可证
 
 本仓库补充为 MIT 许可证，见 [LICENSE](LICENSE)。
